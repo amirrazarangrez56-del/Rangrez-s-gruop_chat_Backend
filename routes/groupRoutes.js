@@ -1,0 +1,12 @@
+const express = require('express');
+const r = express.Router();
+const { getGroup, requestJoin, getJoinRequests, approveRequest, rejectRequest, removeMember, toggleSendPermission } = require('../controllers/groupController');
+const { protect, adminOnly } = require('../middleware/auth');
+r.get('/', protect, getGroup);
+r.post('/request-join', protect, requestJoin);
+r.get('/join-requests', protect, adminOnly, getJoinRequests);
+r.post('/approve/:userId', protect, adminOnly, approveRequest);
+r.post('/reject/:userId', protect, adminOnly, rejectRequest);
+r.delete('/remove/:userId', protect, adminOnly, removeMember);
+r.post('/toggle-send/:userId', protect, adminOnly, toggleSendPermission);
+module.exports = r;
